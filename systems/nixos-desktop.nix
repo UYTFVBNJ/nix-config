@@ -38,9 +38,9 @@
     pulse.enable = true;
   };
 
-  users.users.lighthouse = {
+  users.users.gh = {
     isNormalUser = true;
-    description = "lighthouse";
+    description = "gh";
     extraGroups = [ "networkmanager" "wheel" "audio" "video" ];
     shell = pkgs.bash;
   };
@@ -59,5 +59,5 @@
 
   programs.bash.completion.enable = true;
 
-  system.stateVersion = "23.05";
+  system.stateVersion = "25.05";
 }

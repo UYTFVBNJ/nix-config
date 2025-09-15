@@ -61,7 +61,7 @@
 
   programs.git = {
     enable = true;
-    userName = "lighthouse";
+    userName = "gh";
     userEmail = "user@example.com";
   };
 
