@@ -38,8 +38,8 @@
     ...
   }: {
     nixosConfigurations = {
-      nixos-test = let
-        username = "ryan";
+      mars = let
+        username = "gh";
         specialArgs = {inherit username;};
       in
         nixpkgs.lib.nixosSystem {
@@ -47,7 +47,7 @@
           system = "x86_64-linux";
 
           modules = [
-            ./hosts/nixos-test
+            ./hosts/mars
             ./users/${username}/nixos.nix
 
             home-manager.nixosModules.home-manager
