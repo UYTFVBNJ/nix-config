@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{lib, pkgs, isDesktop, ...}: {
   ##################################################################################################################
   #
   # All Ryan's Home Manager Configuration
@@ -7,16 +7,17 @@
 
   imports = [
     ../../home/core.nix
-
-    ../../home/fcitx5
-    ../../home/i3
-    ../../home/programs
-    ../../home/rofi
-    ../../home/shell
+    ../../home/cli
+  ] ++ lib.optionals isDesktop [
+    ../../home/gui
   ];
 
   programs.git = {
     userName = "Julian Gao";
     userEmail = "juytfvbng@gamil.com";
+  };
+
+  age.secrets."github-token" = {
+    file = ../../secrets/github-token.age;  # path in your repo
   };
 }

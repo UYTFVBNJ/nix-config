@@ -2,9 +2,10 @@
   lib,
   pkgs,
   catppuccin-bat,
+  pkgsUnstable,
   ...
 }: {
-  home.packages = with pkgs; [
+  home.packages = (with pkgs; [
     # archives
     zip
     unzip
@@ -16,16 +17,9 @@
     htop
 
     # misc
-    libnotify
-    wineWowPackages.wayland
-    xdg-utils
     graphviz
 
     # productivity
-    obsidian
-
-    # IDE
-    insomnia
 
     # cloud native
     docker-compose
@@ -37,10 +31,14 @@
     yarn
 
     # db related
-    dbeaver-bin
     mycli
     pgcli
-  ];
+
+    
+  ]) ++ (with pkgsUnstable; [
+    claude-code
+    claude-code-router
+  ]);
 
   programs = {
     tmux = {
@@ -84,8 +82,5 @@
 
   services = {
     syncthing.enable = true;
-
-    # auto mount usb drives
-    udiskie.enable = true;
   };
 }

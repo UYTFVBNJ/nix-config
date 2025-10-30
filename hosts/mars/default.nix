@@ -6,12 +6,25 @@
 
 {
   imports = [
+    ../host-config.nix
     ../../modules/system.nix
-    ../../modules/i3.nix
+    ../../modules/agenix.nix
+    ../../modules/mihomo
+    # ../../modules/i3.nix
 
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
+
+  machine.isDesktop = true;
+  age.secrets."github-token" = {
+    file = ../../secrets/github-token.age;  # path in your repo
+    owner = "gh";                       # your user
+    group = "users";
+    mode = "0400";
+    # optional: choose exact path
+    # path = "/home/gh/.config/github/token";
+  };
 
   # Boot loader.
   boot.loader = {
@@ -38,8 +51,8 @@
   services = {
     xserver.enable = true;
     xserver.videoDrivers = [ "nvidia" ];
-    # displayManager.gdm.enable = true;
-    # desktopManager.gnome.enable = true;
+    xserver.displayManager.gdm.enable = true;
+    xserver.desktopManager.gnome.enable = true;
   };
   hardware.nvidia.open = true;
   hardware.graphics.enable = true;

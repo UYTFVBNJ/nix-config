@@ -22,67 +22,64 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager/release-25.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-
+    agenix.url  = "github:ryantm/agenix";
     catppuccin-bat = {
       url = "github:catppuccin/bat";
       flake = false;
     };
+
   };
+
 
   outputs = inputs @ {
     self,
     nixpkgs,
     home-manager,
+    agenix,
     ...
   }: {
     nixosConfigurations = {
-      mars = let
-        username = "gh";
-        specialArgs = {inherit username;};
-      in
-        nixpkgs.lib.nixosSystem {
-          inherit specialArgs;
-          system = "x86_64-linux";
-
-          modules = [
-            ./hosts/mars
-            ./users/${username}/nixos.nix
-
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-
-              home-manager.extraSpecialArgs = inputs // specialArgs;
-              home-manager.users.${username} = import ./users/${username}/home.nix;
-            }
-          ];
+      mars = let 
+      system = "x86_64-linux";
+        username = "gh"; 
+        pkgsUnstable = import inputs.nixpkgs-unstable {
+          inherit system; 
+          config.allowUnfree = true;
         };
-
-      msi-rtx4090 = let
-        username = "suzi"; # another username for this machine
-        specialArgs = {inherit username;};
-      in
-        nixpkgs.lib.nixosSystem {
-          inherit specialArgs;
-          system = "x86_64-linux";
-
-          modules = [
-            ./hosts/msi-rtx4090
-            ./users/${username}/nixos.nix
-
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-
-              home-manager.extraSpecialArgs = inputs // specialArgs;
-              home-manager.users.${username} = import ./users/${username}/home.nix;
-            }
-          ];
+        specialArgs = {
+          inherit username; 
+          inherit pkgsUnstable;
         };
+      in nixpkgs.lib.nixosSystem {
+        inherit system;
+        inherit specialArgs;
+
+        modules = [
+          ./users/${username}/nixos.nix
+          ./hosts/mars
+          agenix.nixosModules.default
+          home-manager.nixosModules.home-manager
+          ({config, ...}: {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "backup";
+            home-manager.extraSpecialArgs = inputs // specialArgs // {
+              isDesktop = config.machine.isDesktop or false;
+            };
+            home-manager.users.${username} = {
+              imports = [
+                agenix.homeManagerModules.default
+                ./users/${username}/home.nix 
+              ];
+            };
+          })
+        ];
+      };
+
+      
     };
   };
 }

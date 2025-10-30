@@ -134,7 +134,6 @@
     neofetch
     xfce.thunar # xfce4's file manager
     nnn # terminal file manager
-    vscode
   ];
 
   # Enable sound with pipewire.
