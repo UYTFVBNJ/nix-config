@@ -2,12 +2,19 @@
 {
   programs.nushell = {
     enable = true;
-    extraEnv = ''
+    extraEnv =
+    let
+      tokenPath = config.age.secrets."github-token".path;
+    in ''
+      # other envs
       $env.EDITOR = "vim"
       $env.BROWSER = "firefox"
       $env.TERMINAL = "wezterm"
-      $env.GITHUB_TOKEN = "${config.age.secrets."github-token".path}"
-      $env.GH_TOKEN     = "${config.age.secrets."github-token".path}"
+
+      # read real token at runtime
+      let token = (open "${tokenPath}" | str trim)
+      $env.GITHUB_TOKEN = $token
+      $env.GH_TOKEN     = $token
     '';
   };
 }

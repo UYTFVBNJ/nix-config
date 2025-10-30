@@ -26,9 +26,6 @@ in {
 
     MANPAGER = "sh -c 'col -bx | bat -l man -p'";
 
-    # GH TOKEN
-    # GITHUB_TOKEN = config.age.secrets."github-token".path;
-    # GH_TOKEN     = config.age.secrets."github-token".path;
   };
 
   home.shellAliases = {

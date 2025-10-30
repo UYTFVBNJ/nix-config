@@ -1,4 +1,4 @@
-{lib, pkgs, isDesktop, ...}: {
+{config, lib, pkgs, isDesktop, ...}: {
   ##################################################################################################################
   #
   # All Ryan's Home Manager Configuration
@@ -19,5 +19,6 @@
 
   age.secrets."github-token" = {
     file = ../../secrets/github-token.age;  # path in your repo
+    path = "${config.home.homeDirectory}/.local/share/agenix/github-token";
   };
 }
