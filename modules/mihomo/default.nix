@@ -8,7 +8,7 @@
     mihomo = {
       enable = true;
       tunMode = true;
-      configFile = ./config.yaml;
+      configFile = "/etc/mihomo/config.yaml";
     };
   };
 }

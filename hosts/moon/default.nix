@@ -16,40 +16,35 @@
     ./hardware-configuration.nix
   ];
 
-  machine.isDesktop = true;
-  
+  machine.isDesktop = false;
+
+  age.secrets."github-token" = {
+    file = ../../secrets/github-token.age;  # path in your repo
+    owner = "gh";                       # your user
+    group = "users";
+    mode = "0400";
+    # optional: choose exact path
+    path = "${config.users.users.${username}.home}/.local/share/agenix/github-token";
+  };
 
   # Boot loader.
-  boot.loader = {
-    systemd-boot.enable = false;
-    grub = {
+  # 
+  boot.loader.grub = {
       enable = true;
-      devices = [ "nodev" ];
-      efiSupport = true;
-      useOSProber = true;
-    };
-    efi = {
-      canTouchEfiVariables = true;
-      efiSysMountPoint = "/boot";
-    };
+      devices = "/dev/vda";
   };
+  boot.kernelParams = [ "console=ttyS0,115200n8" "console=tty0" ];
+  
 
   networking = {
     hostName = "mars";
     # wireless.enable = true;
     networkmanager.enable = true;
+    usePredictableInterfaceNames = false;
   };
 
   # DM
-  services = {
-    xserver.enable = true;
-    xserver.videoDrivers = [ "nvidia" ];
-    xserver.displayManager.gdm.enable = true;
-    xserver.desktopManager.gnome.enable = true;
-    accounts-daemon.enable = true;
-  };
-  hardware.nvidia.open = true;
-  hardware.graphics.enable = true;
+  # None  
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.

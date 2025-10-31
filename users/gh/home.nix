@@ -18,7 +18,8 @@
   };
 
   age.secrets."github-token" = {
-    file = ../../secrets/github-token.age;  # path in your repo
+    file = ../../secrets/github-token.age; 
     path = "${config.home.homeDirectory}/.local/share/agenix/github-token";
   };
+  
 }
