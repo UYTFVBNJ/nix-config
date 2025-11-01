@@ -79,7 +79,42 @@
         ];
       };
 
-      
+      moon = let 
+      system = "x86_64-linux";
+        username = "gh"; 
+        pkgsUnstable = import inputs.nixpkgs-unstable {
+          inherit system; 
+          config.allowUnfree = true;
+        };
+        specialArgs = {
+          inherit username; 
+          inherit pkgsUnstable;
+        };
+      in nixpkgs.lib.nixosSystem {
+        inherit system;
+        inherit specialArgs;
+
+        modules = [
+          ./users/${username}/nixos.nix
+          ./hosts/moon
+          agenix.nixosModules.default
+          home-manager.nixosModules.home-manager
+          ({config, ...}: {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "backup";
+            home-manager.extraSpecialArgs = inputs // specialArgs // {
+              isDesktop = config.machine.isDesktop or false;
+            };
+            home-manager.users.${username} = {
+              imports = [
+                agenix.homeManagerModules.default
+                ./users/${username}/home.nix 
+              ];
+            };
+          })
+        ];
+      };
     };
   };
 }

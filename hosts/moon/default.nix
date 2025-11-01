@@ -18,26 +18,17 @@
 
   machine.isDesktop = false;
 
-  age.secrets."github-token" = {
-    file = ../../secrets/github-token.age;  # path in your repo
-    owner = "gh";                       # your user
-    group = "users";
-    mode = "0400";
-    # optional: choose exact path
-    path = "${config.users.users.${username}.home}/.local/share/agenix/github-token";
-  };
-
   # Boot loader.
   # 
   boot.loader.grub = {
       enable = true;
-      devices = "/dev/vda";
+      devices = [ "/dev/vda" ];
   };
   boot.kernelParams = [ "console=ttyS0,115200n8" "console=tty0" ];
   
 
   networking = {
-    hostName = "mars";
+    hostName = "moon";
     # wireless.enable = true;
     networkmanager.enable = true;
     usePredictableInterfaceNames = false;
@@ -64,6 +55,6 @@
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "25.05"; # Did you read the comment?
-
+  systemd.services."home-manager-gh".serviceConfig.RemainAfterExit = lib.mkForce "yes";
 }
 
