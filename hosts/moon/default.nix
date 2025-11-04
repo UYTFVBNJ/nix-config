@@ -10,6 +10,7 @@
     ../../modules/system.nix
     ../../modules/agenix.nix
     ../../modules/mihomo
+    ../../modules/virtualization.nix
     # ../../modules/i3.nix
 
     # Include the results of the hardware scan.
@@ -55,6 +56,5 @@
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "25.05"; # Did you read the comment?
-  systemd.services."home-manager-gh".serviceConfig.RemainAfterExit = lib.mkForce "yes";
 }
 
