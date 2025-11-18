@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: openlist
+spec:
+  containers:
+    - name: openlist
+      image: openlistteam/openlist:latest-aio
+      # 暴露 Web 端口 5244，并映射到宿主 5244
+      ports:
+        - containerPort: 5203
+          hostPort: 5203
+      env:
+        - name: UMASK         # 可选，默认 022
+          value: "022"
+        - name: TZ            # 可选，设置时区
+          value: "Asia/Shanghai"
+        - name: RUN_ARIA2    # 可选，镜像含 aria2 时可 true
+          value: "true"
+        - name: OPENLIST_ADMIN_PASSWORD   # 可选：首次启动设管理员密码
+          value: "your-strong-password"
+      volumeMounts:
+        - name: data
+          mountPath: /opt/openlist/data
+      securityContext:
+        runAsUser: 1001   # rootless 模式下，容器内 `1001` 会被用户命名空间映射，直接把宿主目录 chown 成 1001 反而可能不好操作；按上面方式最稳。
+        runAsGroup: 1001
+  volumes:
+    - name: data
+      hostPath:
+        path: /data/openlist
+        type: DirectoryOrCreate
+

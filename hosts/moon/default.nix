@@ -10,7 +10,7 @@
     ../../modules/system.nix
     ../../modules/agenix.nix
     ../../modules/mihomo
-    ../../modules/virtualization.nix
+    ../../modules/virtualization
     # ../../modules/i3.nix
 
     # Include the results of the hardware scan.

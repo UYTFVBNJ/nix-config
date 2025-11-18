@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: taosync
+labels:
+  app: taosync
+spec:
+  containers:
+    - name: taosync
+      image: docker.io/dr34m/tao-sync:latest
+      imagePullPolicy: IfNotPresent
+      ports:
+        - containerPort: 8023
+          hostPort: 8023
+      env:
+        - name: TZ
+          value: "Asia/Shanghai"
+        # 可选：
+        # - name: TAO_PORT
+        #   value: "8023"
+        # - name: TAO_LOG_LEVEL
+        #   value: "1"
+        # - name: TAO_TASK_TIMEOUT
+        #   value: "72"
+        # - name: TAO_EXPIRES
+        #   value: "7"
+      volumeMounts:
+        - name: taosync-data
+          mountPath: /app/data
+  volumes:
+    - name: taosync-data
+      hostPath:
+        path: /data/taosync   # 宿主机目录，自行修改
+        type: DirectoryOrCreate

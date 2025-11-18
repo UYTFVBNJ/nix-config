@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ddtv
+spec:
+  containers:
+    - name: ddtv
+      image: ghcr.io/chkzl/ddtv/server:latest
+      env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "100"
+        - name: TZ
+          value: "Asia/Shanghai"
+      ports:
+        - containerPort: 11419
+          hostPort: 11419
+      volumeMounts:
+        - name: rec
+          mountPath: /DDTV/Rec
+        - name: cfg
+          mountPath: /DDTV/Config
+        - name: logs
+          mountPath: /DDTV/Logs
+  volumes:
+    - name: rec
+      hostPath: { path: /data/ddtv/Rec, type: DirectoryOrCreate }
+    - name: cfg
+      hostPath: { path: /data/ddtv/Config, type: DirectoryOrCreate }
+    - name: logs
+      hostPath: { path: /data/ddtv/Logs, type: DirectoryOrCreate }
