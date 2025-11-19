@@ -10,14 +10,14 @@ spec:
       image: docker.io/dr34m/tao-sync:latest
       imagePullPolicy: IfNotPresent
       ports:
-        - containerPort: 8023
-          hostPort: 8023
+        - containerPort: 3030
+          hostPort: 3030
       env:
         - name: TZ
           value: "Asia/Shanghai"
         # 可选：
-        # - name: TAO_PORT
-        #   value: "8023"
+        - name: TAO_PORT
+          value: "3030"
         # - name: TAO_LOG_LEVEL
         #   value: "1"
         # - name: TAO_TASK_TIMEOUT

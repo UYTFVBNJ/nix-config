@@ -113,6 +113,12 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   networking.firewall.enable = false;
+  
+  services.zerotierone = {
+    enable = true;
+    joinNetworks = [ "ebe7fbd445be728c" ];
+  };
+
 
   # Enable the OpenSSH daemon.
   services.openssh = {
@@ -140,6 +146,7 @@
     neofetch
     # xfce.thunar # xfce4's file manager
     nnn # terminal file manager
+    nftables
   ];
 
   # Enable sound with pipewire.

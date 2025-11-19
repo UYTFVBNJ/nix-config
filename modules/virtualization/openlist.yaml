@@ -8,8 +8,8 @@ spec:
       image: openlistteam/openlist:latest-aio
       # 暴露 Web 端口 5244，并映射到宿主 5244
       ports:
-        - containerPort: 5203
-          hostPort: 5203
+        - containerPort: 3030
+          hostPort: 3030
       env:
         - name: UMASK         # 可选，默认 022
           value: "022"
