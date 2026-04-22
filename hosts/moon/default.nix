@@ -11,6 +11,7 @@
     ../../modules/agenix.nix
     ../../modules/mihomo
     ../../modules/virtualization
+    ../../modules/db.nix
     # ../../modules/i3.nix
 
     # Include the results of the hardware scan.

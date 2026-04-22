@@ -33,6 +33,9 @@
     # db related
     mycli
     pgcli
+    
+    # python
+    uv
 
     
   ]) ++ (with pkgsUnstable; [
